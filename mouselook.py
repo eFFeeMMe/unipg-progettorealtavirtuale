@@ -21,17 +21,15 @@ def main():
 	Invert = 1
 	Capped = False
 	
-	# get controller
 	controller = bge.logic.getCurrentController()
-	
-	# get the object this script is attached to
 	obj = controller.owner
 	
-	# get the size of the game screen
-	gameScreen = gameWindow()
+	screen_width = bge.render.getWindowWidth()
+    screen_height = bge.render.getWindowHeight()
+	screen_size = screen_width, screen_height
 	
 	# get mouse movement
-	move = mouseMove(gameScreen, controller, obj)
+	move = mouseMove(screen_size, controller, obj)
 	
 	# change mouse sensitivity?
 	sensitivity =  mouseSen(Sensitivity, obj)
@@ -46,30 +44,19 @@ def main():
 	useMouseLook(controller, capped, move, invert, sensitivity)
 		
 	# Center mouse in game window
-	centerCursor(controller, gameScreen)
-	
-#####################################################
-
-# define game window
-def gameWindow():
-	
-	# get width and height of game window
-	width = bge.render.getWindowWidth()
-	height = bge.render.getWindowHeight()
-	
-	return (width, height)
+	centerCursor(controller, screen_size)
 
 #######################################################
 
 # define mouse movement function
-def mouseMove(gameScreen, controller, obj):
+def mouseMove(screen_size, controller, obj):
 
 	# Get sensor named MouseLook
 	mouse = controller.sensors["MouseLook"]
 
-	# extract width and height from gameScreen
-	width = gameScreen[0]
-	height = gameScreen[1]
+	# extract width and height from screen_size
+	width = screen_size[0]
+	height = screen_size[1]
 
 	# distance moved from screen center
 	x = width/2 - mouse.position[0]
@@ -78,15 +65,15 @@ def mouseMove(gameScreen, controller, obj):
 	# initialize mouse so it doesn't jerk first time
 	if not 'mouseInit' in obj:
 		obj['mouseInit'] = True
-		x = 0
-		y = 0
+		x = 0.
+		y = 0.
 	
 	#########	stops drifting on mac osx
    	
 	# if sensor is deactivated don't move
 	if not mouse.positive:
-		x = 0
-		y = 0
+		x = 0.
+		y = 0.
 	
 	#########  -- mac fix contributed by Pelle Johnsen
 			   	 
@@ -217,11 +204,11 @@ def useMouseLook(controller, capped, move, invert, sensitivity):
 #############################################
 
 # define center mouse cursor
-def centerCursor(controller, gameScreen):
+def centerCursor(controller, screen_size):
 	
-	# extract width and height from gameScreen
-	width = gameScreen[0]
-	height = gameScreen[1]
+	# extract width and height from screen_size
+	width = screen_size[0]
+	height = screen_size[1]
 	
 	# Get sensor named MouseLook
 	mouse = controller.sensors["MouseLook"]

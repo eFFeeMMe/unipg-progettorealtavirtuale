@@ -52,9 +52,6 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
-<<<<<<< HEAD
-*.blend1
-=======
+
 # Blender
 *.blend1
->>>>>>> origin/master
