@@ -55,3 +55,6 @@ docs/_build/
 
 # Blender
 *.blend1
+
+#zip
+*.zip
